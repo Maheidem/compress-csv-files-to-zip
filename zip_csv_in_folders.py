@@ -24,4 +24,5 @@ def compress_csv(folder_path):
     total_size_saved_gb = total_size_saved / (1024 ** 3)
     print(f'Total space saved: {total_size_saved_gb:.2f} GB')
 
-compress_csv("HDM/0_Bases")
+root_path = "MY/PATH/EXAMPLE" #Place your root path here    
+compress_csv(root_path)
