@@ -18,9 +18,9 @@ To run this script, you will need:
 1. Clone this repository or download the `zip_csv_in_folders.py` file.
 2. Open a terminal window and navigate to the folder containing the `zip_csv_in_folders.py` file.
 3. Run the script with the following command:
-  3.1.  python zip_csv_in_folders.py -path "/path/to/csv/files" -n_cpu 4
-  3.2.  Replace `/path/to/csv/files` with the root path of the folder containing the .csv files you want to compress.
-  3.3.  Replace `4` with the number of CPUs you want to use (optional). If not specified, the script will use all available CPUs except one.
+  1.  python zip_csv_in_folders.py -path "/path/to/csv/files" -n_cpu 4
+  2.  Replace `/path/to/csv/files` with the root path of the folder containing the .csv files you want to compress.
+  3.  Replace `4` with the number of CPUs you want to use (optional). If not specified, the script will use all available CPUs except one.
 4. Wait for the script to finish compressing all .csv files in the specified folder and subfolders.
 5. The script will print a statement for each file, as well as a total size saved for all files combined.
 
