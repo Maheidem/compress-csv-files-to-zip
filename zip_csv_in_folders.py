@@ -3,9 +3,12 @@ import zipfile
 import argparse
 from multiprocessing import Pool, cpu_count
 
+
 def compress_csv(file_path):
     """
-    This function compresses a single .csv file. It creates a zip file with the same name and replaces the original file with the zip file. It then returns the size saved by compressing.
+    This function compresses a single .csv file. 
+    It creates a zip file with the same name and replaces the original file with the zip file. 
+    It then returns the size saved by compressing.
     """
     try:
         original_size = os.path.getsize(file_path)
@@ -20,9 +23,14 @@ def compress_csv(file_path):
         print(f"Warning: {file_path} could not be compressed. {e}")
         return 0
 
+
 def compress_csv_parallel(folder_path, n_cpu=cpu_count()-1):
     """
-    This function compresses all .csv files in a given folder path using multiprocessing. It uses the os.walk() method to iterate through the subdirectories and files of the folder path. For each .csv file, it creates a process to compress the file in parallel. It then calculates the total size saved by compressing and prints out a statement for each file, as well as a total size saved for all files combined.
+    This function compresses all .csv files in a given folder path using multiprocessing. 
+    It uses the os.walk() method to iterate through the subdirectories and files of the folder path. 
+    For each .csv file, it creates a process to compress the file in parallel. 
+    It then calculates the total size saved by compressing and prints out a statement for each file,
+    as well as a total size saved for all files combined.
     """
     total_size_saved = 0
     file_list = []
@@ -38,6 +46,7 @@ def compress_csv_parallel(folder_path, n_cpu=cpu_count()-1):
     total_size_saved_gb = total_size_saved / (1024 ** 3)
     print(f'Total space saved: {total_size_saved_gb:.2f} GB')
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-path', help='Root path for CSV files', required=True)
@@ -48,4 +57,4 @@ if __name__ == '__main__':
     print(f'Path: {root_path}')
     print(f'CPUs to use: {n_cpu}')
     print('STARTING')
-    compress_csv_parallel(root_path,n_cpu)
+    compress_csv_parallel(root_path, n_cpu)
