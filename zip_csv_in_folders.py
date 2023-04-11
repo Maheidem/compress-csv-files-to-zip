@@ -2,6 +2,10 @@ import os
 import zipfile
 import argparse
 from multiprocessing import Pool, cpu_count
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 def compress_csv(file_path):
@@ -20,7 +24,7 @@ def compress_csv(file_path):
         size_saved = original_size - compressed_size
         return size_saved
     except OSError as e:
-        print(f"Warning: {file_path} could not be compressed. {e}")
+        logging.warning(f"{file_path} could not be compressed. {e}")
         return 0
 
 
@@ -39,22 +43,22 @@ def compress_csv_parallel(folder_path, n_cpu=cpu_count()-1):
             if file.endswith('.csv'):
                 file_path = os.path.join(subdir, file)
                 file_list.append(file_path)
-    print(f"Foram identificados: {len(file_list)} arquivos para serem compactados.")
+    logging.info(f"{len(file_list)} files identified for compression.")
     with Pool(n_cpu) as pool:
         results = list(pool.imap(compress_csv, file_list))
     total_size_saved = sum(results)
     total_size_saved_gb = total_size_saved / (1024 ** 3)
-    print(f'Total space saved: {total_size_saved_gb:.2f} GB')
+    logging.info(f'Total space saved: {total_size_saved_gb:.2f} GB')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-path', help='Root path for CSV files', required=True)
-    parser.add_argument('-n_cpu', help='Number of CPUs to use', required=False)
+    parser.add_argument('-path', help='Root path for CSV files', type=str ,required=True)
+    parser.add_argument('-n_cpu', help='Number of CPUs to use', type=int, default=1)
     args = parser.parse_args()
     root_path = args.path
-    n_cpu = int(args.n_cpu)
-    print(f'Path: {root_path}')
-    print(f'CPUs to use: {n_cpu}')
-    print('STARTING')
+    n_cpu = args.n_cpu
+    logging.info(f'Path: {root_path}')
+    logging.info(f'CPUs to use: {n_cpu}')
+    logging.info('STARTING')
     compress_csv_parallel(root_path, n_cpu)
